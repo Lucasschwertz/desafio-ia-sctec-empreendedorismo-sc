@@ -1,68 +1,88 @@
-﻿# Análise de Empreendedorismo em Santa Catarina
+﻿# Analise de Empreendedorismo em Santa Catarina
+
+## Descricao do problema
+
+Este projeto analisa a distribuicao de estabelecimentos por municipio no estado de Santa Catarina a partir de dados publicos do Mapa de Empresas. O problema investigado e a concentracao da atividade empreendedora no territorio catarinense: quais municipios concentram mais estabelecimentos, qual o peso relativo de cada um no total estadual e como essa distribuicao pode ser observada de forma clara por meio de tabelas e graficos.
 
 ## Objetivo
 
-Este projeto analisa a distribuição de estabelecimentos por município no estado de Santa Catarina a partir de dados públicos do Mapa de Empresas. O foco é transformar um arquivo Excel em uma base organizada para análise exploratória, permitindo identificar os municípios com maior concentração de estabelecimentos e medir a participação relativa de cada localidade no total observado.
+O objetivo da solucao e transformar um arquivo Excel bruto em um fluxo reprodutivel de analise exploratoria. A partir da base original, o projeto padroniza colunas, separa cidade e UF, organiza um ranking municipal, calcula participacao percentual e gera saidas visuais para apoiar a interpretacao dos principais polos economicos de Santa Catarina.
 
-## Fonte de Dados
+## Origem dos dados
 
-O projeto utiliza um arquivo Excel com o número de estabelecimentos por município. A base é armazenada em `data/raw/dados_mapa_empresas.xlsx` e é lida diretamente no notebook principal, sem alteração do arquivo original.
+A base utilizada no projeto esta armazenada localmente em `data/raw/dados_mapa_empresas.xlsx` e foi extraida a partir do Mapa de Empresas do Governo Federal. Referencia oficial do programa e dos paineis publicos:
 
-## Metodologia
+- https://www.gov.br/empresas-e-negocios/pt-br/mapa-de-empresas
+- https://www.gov.br/empresas-e-negocios/pt-br/mapa-de-empresas/painel-mapa-de-empresas
 
-- leitura do Excel com `pandas`
-- limpeza e padronização de colunas
-- separação cidade/UF
-- cálculo de participação percentual
-- ranking de municípios
-- visualização com gráficos
+O notebook trabalha apenas com as colunas reais da base utilizadas nesta entrega: `[Municipio]` e `Estabelecimentos `.
 
-A lógica da análise preserva o schema real da base. O campo de município é tratado para separar `cidade` e `uf`, a coluna de estabelecimentos é convertida para valor numérico e os dados são ordenados de forma decrescente para formar o ranking municipal.
+## Etapas de tratamento
 
-## Resultados
+1. Leitura do arquivo Excel com `pandas.read_excel`.
+2. Normalizacao dos nomes das colunas para reduzir inconsistencias de formato.
+3. Remocao de colchetes e ajustes de espacos residuais nos nomes das colunas.
+4. Renomeacao para `municipio` e `estabelecimentos`.
+5. Tratamento de valores ausentes e linhas vazias.
+6. Separacao do campo `municipio` em `cidade` e `uf` com base no padrao `Cidade - UF`.
+7. Conversao da coluna `estabelecimentos` para formato numerico.
+8. Ordenacao dos registros em ordem decrescente.
+9. Calculo do percentual que cada municipio representa no total.
+10. Geracao do ranking final e da participacao acumulada dos 10 principais municipios.
 
-Os principais artefatos produzidos pelo projeto são:
+## Tecnologias utilizadas
 
-- ranking de municípios por número de estabelecimentos
-- gráfico Top 15 municípios
-- participação percentual dos principais polos econômicos
+- Python
+- Pandas
+- Matplotlib
+- Seaborn
+- Jupyter Notebook
+- openpyxl
 
-Os resultados ficam salvos em arquivos prontos para consulta e publicação, com destaque para `outputs/tabelas/ranking_municipios.csv`, `outputs/graficos/top_15_municipios.png` e `outputs/graficos/participacao_top10.png`.
+## Resultados gerados
 
-## Estrutura do Projeto
+O repositorio produz artefatos prontos para avaliacao e publicacao:
+
+- `outputs/tabelas/ranking_municipios.csv` com o ranking consolidado;
+- `outputs/graficos/top_15_municipios.png` com os 15 municipios de maior volume;
+- `outputs/graficos/participacao_top10.png` com a participacao percentual dos 10 principais polos.
+
+Esses arquivos permitem avaliar rapidamente a concentracao economica e identificar os municipios de maior relevancia no conjunto de dados analisado.
+
+## Estrutura do projeto
 
 ```text
 desafio-ia-sctec-empreendedorismo-sc/
-├ data/
-│  └ raw/
-│     └ dados_mapa_empresas.xlsx
-├ notebooks/
-│  └ analise_empreendedorismo_sc.ipynb
-├ outputs/
-│  ├ graficos/
-│  │  ├ top_15_municipios.png
-│  │  └ participacao_top10.png
-│  └ tabelas/
-│     └ ranking_municipios.csv
-├ src/
-│  ├ clean.py
-│  ├ metrics.py
-│  └ plots.py
-├ README.md
-├ requirements.txt
-└ .gitignore
+├── data/
+│   └── raw/
+│       └── dados_mapa_empresas.xlsx
+├── notebooks/
+│   └── analise_empreendedorismo_sc.ipynb
+├── outputs/
+│   ├── graficos/
+│   │   ├── top_15_municipios.png
+│   │   └── participacao_top10.png
+│   └── tabelas/
+│       └── ranking_municipios.csv
+├── src/
+│   ├── clean.py
+│   ├── metrics.py
+│   └── plots.py
+├── README.md
+├── requirements.txt
+└── .gitignore
 ```
 
-Descrição das pastas:
+Descricao das pastas:
 
-- `data`: armazena o arquivo bruto utilizado na análise.
-- `notebooks`: contém o notebook principal com o fluxo analítico.
-- `outputs`: guarda tabelas e gráficos gerados durante a exploração dos dados.
-- `src`: concentra funções auxiliares de limpeza, métricas e visualização, mantendo o notebook mais organizado.
+- `data`: contem o arquivo bruto utilizado na analise.
+- `notebooks`: concentra o notebook principal da entrega.
+- `outputs`: guarda tabelas e graficos gerados pelo fluxo analitico.
+- `src`: reune funcoes auxiliares de limpeza, metricas e visualizacao.
 
-## Como Executar
+## Instrucoes de execucao
 
-Instale as dependências do projeto:
+Instale as dependencias:
 
 ```bash
 pip install -r requirements.txt
@@ -74,10 +94,15 @@ Inicie o Jupyter Notebook:
 jupyter notebook
 ```
 
-Abra o arquivo:
+Abra o arquivo abaixo e execute todas as celulas em ordem:
 
 ```text
 notebooks/analise_empreendedorismo_sc.ipynb
 ```
 
-Execute todas as células na ordem. Ao final, o notebook irá gerar o ranking consolidado e os gráficos de apoio na pasta `outputs/`.
+Ao final da execucao, o projeto deve atualizar o ranking em CSV e os graficos na pasta `outputs/`.
+
+## Link do video pitch
+
+Pendente de insercao da URL publica do video pitch da entrega final. Para cumprir integralmente o checklist do edital, substitua esta observacao pelo link definitivo do video.
+
