@@ -104,5 +104,5 @@ Ao final da execucao, o projeto deve atualizar o ranking em CSV e os graficos na
 
 ## Link do video pitch
 
-Pendente de insercao da URL publica do video pitch da entrega final. Para cumprir integralmente o checklist do edital, substitua esta observacao pelo link definitivo do video.
+https://www.youtube.com/watch?v=e70t6kh-nZA
 
